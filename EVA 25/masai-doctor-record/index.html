@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Masai Doctor Records</title>
+  </head>
+  <body>
+    <!-- Use this form for data input  -->
+    <form>
+      <input placeholder="Name" type="text" id="name" />
+      <input placeholder="Doctor ID" type="text" id="doctor_id" />
+      <select id="specialization">
+        <option value="">Select Specialization</option>
+        <option value="Dermatologist">Dermatologist</option>
+        <option value="Dentist">Dentist</option>
+        <option value="Gynecologist">Gynecologist</option>
+      </select>
+      <input placeholder="Experience" type="number" id="experience" />
+      <input placeholder="Email" type="email" id="email" />
+      <input placeholder="Mobile No." type="number" id="mobile" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <!-- Use this Select tag for filter part  -->
+    <select id="filter">
+      <option value="">Select Specialization</option>
+      <option value="Dermatologist">Dermatologist</option>
+      <option value="Dentist">Dentist</option>
+      <option value="Gynecologist">Gynecologist</option>
+    </select>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Doctor ID</th>
+          <th>Specialization</th>
+          <th>Experience in Years</th>
+          <th>Email</th>
+          <th>Mobile No</th>
+          <th>Role</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Append Rows here using JS & DOM  -->
+      </tbody>
+    </table>
+  </body>
+  
+  <script>
+    let form=document.querySelector("form")
+    let tbody=document.querySelector("tbody")
+    let filter=document.getElementById("filter")
+    
+    let data=[]
+    
+    form.addEventListener("submit",function(e){
+      e.preventDefault()
+      let obj={
+        name:form.name.value,
+        doc_id:form.doctor_id.value,
+        spec:form.specialization.value,
+        exp:form.experience.value,
+        email:form.email.value,
+        mobile:form.mobile.value
+      }
+    data.push(obj)
+    display(data)
+    })
+    
+
+
+    function display(arr){
+      tbody.innerHTML=""
+      arr.forEach((el,ind)=>{
+    
+        let tr=document.createElement("tr")
+        let name=document.createElement("td")
+        let Doc_id=document.createElement("td")
+        let specialization=document.createElement("td")
+        let experience=document.createElement("td")
+        let mail=document.createElement("td")
+        let phone=document.createElement("td")
+        let td7=document.createElement("td")
+        let td8=document.createElement("Button")
+    
+    name.innerText=el.name
+    Doc_id.innerText=el.doc_id
+    specialization.innerText=el.spec
+    experience.innerText=el.exp
+    mail.innerText=el.email
+    phone.innerText=el.mobile
+    
+    if(el.exp > 5){
+      td7.innerText="Senior"
+    
+    }
+    else if(el.exp>=2 && el.exp<=5){
+      td7.innerText="Junior"
+    }
+    else if(el.exp<=1){
+      td7.innerText="Trainee"
+    }
+    td8.innerText="Delete"
+    td8.addEventListener("click",function(){
+      data.splice(ind,1)
+      display(data)
+    
+    })
+    
+    tr.append(name, Doc_id,specialization,experience,mail,phone,td7,td8)
+    tbody.append(tr)
+      })
+    }
+    
+    filter.addEventListener("change",function(){
+      if(filter.value===""){
+      display(data)
+      }
+      else{
+        let temp=data.filter(function(el){
+          if(el.spec===filter.value){
+            return true
+          }
+       
+          else{
+        return false
+      }
+    
+     
+    })
+    console.log(temp);
+    display(temp)
+      }
+    })
+    
+    
+      </script>
+</html>
